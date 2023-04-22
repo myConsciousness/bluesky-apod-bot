@@ -9,6 +9,7 @@ dependencies:
   bluesky: ^0.3.7
   cron: ^0.5.1
   http: ^0.13.5
+  image: ^4.0.15
   nasa: ^0.0.3
 
 dev_dependencies:

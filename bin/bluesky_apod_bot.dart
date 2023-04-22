@@ -1,14 +1,16 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bluesky/bluesky.dart' as bsky;
 import 'package:cron/cron.dart';
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
 bsky.Record? repostRecord;
 
 void main(List<String> args) async {
-  Cron().schedule(Schedule.parse('0 10,22 * * *'), () async {
+  Cron().schedule(Schedule.parse('0 0 10,22 * *'), () async {
     final bluesky = bsky.Bluesky.fromSession(
       await _session,
       retryConfig: bsky.RetryConfig(
@@ -37,7 +39,7 @@ void main(List<String> args) async {
     final file = File('dummy.jpg');
     file.writeAsBytesSync(response.bodyBytes);
 
-    final blob = await bluesky.repositories.uploadBlob(file);
+    final blobData = await _getBlobData(bluesky, file);
 
     final header = getHeader(image);
     final record = await bluesky.feeds.createPost(
@@ -51,7 +53,7 @@ void main(List<String> args) async {
           images: [
             bsky.Image(
               alt: image.title,
-              image: blob.data.blob,
+              image: blobData.blob,
             )
           ],
         ),
@@ -161,4 +163,41 @@ List<bsky.Facet>? getFacets(final APODData apod, final String header) {
       ],
     ),
   ];
+}
+
+Future<bsky.BlobData> _getBlobData(
+  final bsky.Bluesky bluesky,
+  final File file,
+) async {
+  final response = await bluesky.repositories.uploadBlob(
+    _compressImage(
+      file.readAsBytesSync(),
+    ),
+  );
+
+  return response.data;
+}
+
+File _compressImage(Uint8List fileBytes) {
+  int quality = 100;
+
+  while (fileBytes.length > 976.56 * 1024) {
+    final decodedImage = decodeImage(fileBytes);
+    final encodedImage = encodeJpg(decodedImage!, quality: quality);
+
+    final compressedSize = encodedImage.length;
+
+    if (compressedSize < 976.56 * 1024) {
+      quality += 10;
+    } else {
+      quality -= 10;
+    }
+
+    fileBytes = encodedImage;
+  }
+
+  final compressedImageFile = File('compressed.jpg');
+  compressedImageFile.writeAsBytesSync(fileBytes);
+
+  return compressedImageFile;
 }
