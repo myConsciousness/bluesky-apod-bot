@@ -10,7 +10,7 @@ import 'package:nasa/nasa.dart';
 bsky.Record? repostRecord;
 
 void main(List<String> args) async {
-  Cron().schedule(Schedule.parse('0 0 10,22 * *'), () async {
+  Cron().schedule(Schedule.parse('0 10,22 * * *'), () async {
     final bluesky = bsky.Bluesky.fromSession(
       await _session,
       retryConfig: bsky.RetryConfig(
