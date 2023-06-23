@@ -25,6 +25,7 @@ void main(List<String> args) async {
       );
 
       repostRecord = null;
+      return;
     }
 
     final nasa = NasaApi(
