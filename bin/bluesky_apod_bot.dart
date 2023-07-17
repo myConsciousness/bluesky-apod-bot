@@ -17,7 +17,7 @@ void main(List<String> args) async {
 
   final head = await bluesky.feeds.findFeed(
     actor: Platform.environment['BLUESKY_IDENTIFIER']!,
-    limit: 1,
+    limit: 50,
   );
 
   final headPost = head.data.feed.first.post;
