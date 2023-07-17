@@ -2,91 +2,82 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bluesky/bluesky.dart' as bsky;
-import 'package:cron/cron.dart';
+import 'package:bluesky_text/bluesky_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
-bsky.Record? repostRecord;
-
 void main(List<String> args) async {
-  Cron().schedule(Schedule.parse('0 10,22 * * *'), () async {
-    final bluesky = bsky.Bluesky.fromSession(
-      await _session,
-      retryConfig: bsky.RetryConfig(
-        maxAttempts: 10,
-      ),
+  final bluesky = bsky.Bluesky.fromSession(
+    await _session,
+    retryConfig: bsky.RetryConfig(
+      maxAttempts: 10,
+    ),
+  );
+
+  final head = await bluesky.feeds.findFeed(
+    actor: Platform.environment['BLUESKY_IDENTIFIER']!,
+    limit: 1,
+  );
+
+  final headPost = head.data.feed.first.post;
+
+  if (headPost.isNotReposted) {
+    await bluesky.feeds.createRepost(
+      cid: headPost.cid,
+      uri: headPost.uri,
     );
 
-    if (repostRecord != null) {
-      await bluesky.feeds.createRepost(
-        cid: repostRecord!.cid,
-        uri: repostRecord!.uri,
-      );
+    return;
+  }
 
-      repostRecord = null;
-      return;
-    }
+  final nasa = NasaApi(
+    token: Platform.environment['NASA_API_TOKEN']!,
+  );
 
-    final nasa = NasaApi(
-      token: Platform.environment['NASA_API_TOKEN']!,
-    );
+  final imageData = await nasa.apod.lookupImage();
+  final image = imageData.data;
 
-    final imageData = await nasa.apod.lookupImage();
-    final image = imageData.data;
+  final response = await http.get(Uri.parse(image.url));
 
-    final response = await http.get(Uri.parse(image.url));
+  final blobData = await _getBlobData(bluesky, response.bodyBytes);
 
-    final file = File('dummy.jpg');
-    file.writeAsBytesSync(response.bodyBytes);
+  final headerText = BlueskyText(_getHeaderText(image));
+  final links = headerText.links;
 
-    final blobData = await _getBlobData(bluesky, file);
-
-    final header = getHeader(image);
-    final record = await bluesky.feeds.createPost(
-      text: header,
-      facets: getFacets(
-        image,
-        header,
-      ),
-      embed: bsky.Embed.images(
-        data: bsky.EmbedImages(
-          images: [
-            bsky.Image(
-              alt: image.title,
-              image: blobData.blob,
-            )
-          ],
-        ),
-      ),
-    );
-
-    repostRecord = record.data;
-    final chunks = splitTextIntoChunks(image.description, 300);
-
-    var parentRecord = record;
-    for (final chunk in chunks) {
-      parentRecord = await bluesky.feeds.createPost(
-        text: chunk,
-        reply: bsky.ReplyRef(
-          root: bsky.StrongRef(
-            cid: record.data.cid,
-            uri: record.data.uri,
+  final record = await bluesky.feeds.createPost(
+    text: headerText.value,
+    facets: (await links.toFacets()).map(bsky.Facet.fromJson).toList(),
+    embed: bsky.Embed.images(
+      data: bsky.EmbedImages(
+        images: [
+          bsky.Image(
+            alt: image.description,
+            image: blobData.blob,
           ),
-          parent: bsky.StrongRef(
-            cid: parentRecord.data.cid,
-            uri: parentRecord.data.uri,
-          ),
-        ),
-      );
-    }
-  });
+        ],
+      ),
+    ),
+  );
+
+  final chunks = _splitTextIntoChunks(image.description, 300);
+
+  var parentRecord = record;
+  for (final chunk in chunks) {
+    parentRecord = await bluesky.feeds.createPost(
+      text: chunk,
+      reply: bsky.ReplyRef(
+        root: record.data,
+        parent: parentRecord.data,
+      ),
+    );
+  }
 }
 
 Future<bsky.Session> get _session async {
   final session = await bsky.createSession(
-    identifier: Platform.environment['BLUESKY_AOOD_IDENTIFIER']!,
-    password: Platform.environment['BLUESKY_AOOD_PASSWORD']!,
+    identifier: Platform.environment['BLUESKY_IDENTIFIER']!,
+    password: Platform.environment['BLUESKY_PASSWORD']!,
   );
 
   return session.data;
@@ -100,25 +91,23 @@ String getTitle(final APODData apod) {
   return '${apod.title} - ©${apod.copyright}';
 }
 
-String getHeader(final APODData apod) {
+String _getHeaderText(final APODData apod) {
   final title = getTitle(apod);
 
   if (apod.hdUrl == null) {
     return '''$title
 
-Please read the following thread for an explanation of this image! 👇
-''';
+Please enjoy following threads too! 🪐''';
   }
 
   return '''$title
 
 HD: ${apod.hdUrl}
 
-Please read the following thread for an explanation of this image! 👇
-''';
+Please enjoy following threads too! 🪐''';
 }
 
-List<String> splitTextIntoChunks(String text, int maxChunkSize) {
+List<String> _splitTextIntoChunks(String text, int maxChunkSize) {
   final chunks = <String>[];
   final words = text.split(' ');
   String chunk = '';
@@ -142,44 +131,18 @@ List<String> splitTextIntoChunks(String text, int maxChunkSize) {
   return chunks;
 }
 
-List<bsky.Facet>? getFacets(final APODData apod, final String header) {
-  if (apod.hdUrl == null) {
-    return null;
-  }
-
-  final urlStart = header.indexOf(apod.hdUrl!);
-
-  return [
-    bsky.Facet(
-      index: bsky.ByteSlice(
-        byteStart: urlStart,
-        byteEnd: urlStart + apod.hdUrl!.length + 1,
-      ),
-      features: [
-        bsky.FacetFeature.link(
-          data: bsky.FacetLink(
-            uri: apod.hdUrl!,
-          ),
-        )
-      ],
-    ),
-  ];
-}
-
 Future<bsky.BlobData> _getBlobData(
   final bsky.Bluesky bluesky,
-  final File file,
+  final Uint8List image,
 ) async {
   final response = await bluesky.repositories.uploadBlob(
-    _compressImage(
-      file.readAsBytesSync(),
-    ),
+    _compressImage(image),
   );
 
   return response.data;
 }
 
-File _compressImage(Uint8List fileBytes) {
+Uint8List _compressImage(Uint8List fileBytes) {
   int quality = 100;
 
   while (fileBytes.length > 976.56 * 1024) {
@@ -197,8 +160,5 @@ File _compressImage(Uint8List fileBytes) {
     fileBytes = encodedImage;
   }
 
-  final compressedImageFile = File('compressed.jpg');
-  compressedImageFile.writeAsBytesSync(fileBytes);
-
-  return compressedImageFile;
+  return fileBytes;
 }
