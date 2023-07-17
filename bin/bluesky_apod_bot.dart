@@ -23,9 +23,14 @@ void main(List<String> args) async {
   final headPost = head.data.feed.first.post;
 
   if (headPost.isNotReposted) {
+    final headParent = head.data.feed
+        .where((element) => element.reply == null && element.reason == null)
+        .first
+        .post;
+
     await bluesky.feeds.createRepost(
-      cid: headPost.cid,
-      uri: headPost.uri,
+      cid: headParent.cid,
+      uri: headParent.uri,
     );
 
     return;
