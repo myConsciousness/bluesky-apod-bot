@@ -1,0 +1,27 @@
+name: Run
+
+on:
+  schedule:
+    - cron: "0 8,20 * * *"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Dart
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: stable
+
+    - name: Install dependencies
+      run: dart pub get
+
+    - name: Run Script
+      run: dart run
+      env:
+        BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+        BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        NASA_API_TOKEN: ${{ secrets.NASA_API_TOKEN }}
