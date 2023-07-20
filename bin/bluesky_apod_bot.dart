@@ -40,32 +40,26 @@ void main(List<String> args) async {
     token: Platform.environment['NASA_API_TOKEN']!,
   );
 
-  final imageData = await nasa.apod.lookupImage();
-  final image = imageData.data;
+  final apod = (await nasa.apod.lookupImage()).data;
 
-  final response = await http.get(Uri.parse(image.url));
+  final imageBlob = await http.get(Uri.parse(apod.url));
+  final blobData = await _getBlobData(bluesky, imageBlob.bodyBytes);
 
-  final blobData = await _getBlobData(bluesky, response.bodyBytes);
-
-  final headerText = BlueskyText(_getHeaderText(image));
+  final headerText = BlueskyText(_getHeaderText(apod));
   final links = headerText.links;
 
   final record = await bluesky.feeds.createPost(
     text: headerText.value,
     facets: (await links.toFacets()).map(bsky.Facet.fromJson).toList(),
-    embed: bsky.Embed.images(
-      data: bsky.EmbedImages(
-        images: [
-          bsky.Image(
-            alt: image.description,
-            image: blobData.blob,
-          ),
-        ],
-      ),
+    embed: blobData.blob.toEmbedImage(
+      alt: apod.description,
     ),
   );
 
-  final chunks = _splitTextIntoChunks(image.description, 300);
+  final chunks = _splitTextIntoChunks(
+    apod.description,
+    300,
+  );
 
   var parentRecord = record;
   for (final chunk in chunks) {
