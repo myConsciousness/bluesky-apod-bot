@@ -96,14 +96,14 @@ String _getHeaderText(final APODData apod) {
   if (apod.hdUrl == null) {
     return '''$title
 
-Please enjoy following threads too! 🪐''';
+Please enjoy following threads too! 🪐🔭''';
   }
 
   return '''$title
 
 HD: ${apod.hdUrl}
 
-Please enjoy following threads too! 🪐''';
+Please enjoy following threads too! 🪐🔭''';
 }
 
 List<String> _splitTextIntoChunks(String text, int maxChunkSize) {
