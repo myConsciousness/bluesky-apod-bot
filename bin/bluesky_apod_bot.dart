@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
+const _apodOfficialUrl = 'https://apod.nasa.gov';
+
 void main(List<String> args) async {
   final bluesky = bsky.Bluesky.fromSession(
     await _session,
@@ -82,7 +84,7 @@ Future<bsky.Session> get _session async {
   return session.data;
 }
 
-String getTitle(final APODData apod) {
+String _getTitle(final APODData apod) {
   if (apod.copyright == null) {
     return apod.title;
   }
@@ -90,20 +92,32 @@ String getTitle(final APODData apod) {
   return '${apod.title} - ©${apod.copyright}';
 }
 
+String _getOfficialUrl(final DateTime createdAt) {
+  final formattedDate = '${createdAt.year.toString().substring(2)}'
+      '${createdAt.month.toString().padLeft(2, '0')}'
+      '${createdAt.day.toString().padLeft(2, '0')}';
+
+  return '$_apodOfficialUrl/apod/ap$formattedDate.html';
+}
+
 String _getHeaderText(final APODData apod) {
-  final title = getTitle(apod);
+  final title = _getTitle(apod);
+  final officialUrl = _getOfficialUrl(apod.createdAt);
 
   if (apod.hdUrl == null) {
     return '''$title
 
-Please enjoy following threads too! 🪐🔭''';
+Official: $officialUrl
+
+Please enjoy following threads too! 🔭''';
   }
 
   return '''$title
 
+Official: $officialUrl
 HD: ${apod.hdUrl}
 
-Please enjoy following threads too! 🪐🔭''';
+Please enjoy following threads too! 🔭''';
 }
 
 List<String> _splitTextIntoChunks(String text, int maxChunkSize) {
