@@ -58,15 +58,12 @@ void main(List<String> args) async {
     ),
   );
 
-  final chunks = _splitTextIntoChunks(
-    apod.description,
-    300,
-  );
+  final chunks = BlueskyText(apod.description).split();
 
   var parentRecord = record;
   for (final chunk in chunks) {
     parentRecord = await bluesky.feeds.createPost(
-      text: chunk,
+      text: chunk.value,
       reply: bsky.ReplyRef(
         root: record.data,
         parent: parentRecord.data,
@@ -118,30 +115,6 @@ Official: $officialUrl
 HD: ${apod.hdUrl}
 
 Please enjoy following threads too! 🔭''';
-}
-
-List<String> _splitTextIntoChunks(String text, int maxChunkSize) {
-  final chunks = <String>[];
-  final words = text.split(' ');
-  String chunk = '';
-
-  for (int i = 0; i < words.length; i++) {
-    if ((chunk.length + words[i].length + 1) <= maxChunkSize) {
-      if (chunk.isNotEmpty) {
-        chunk += ' ';
-      }
-      chunk += words[i];
-    } else {
-      chunks.add(chunk);
-      chunk = words[i];
-    }
-  }
-
-  if (chunk.isNotEmpty) {
-    chunks.add(chunk);
-  }
-
-  return chunks;
 }
 
 Future<bsky.BlobData> _getBlobData(
