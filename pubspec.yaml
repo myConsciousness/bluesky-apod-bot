@@ -6,7 +6,7 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  bluesky: ^0.7.10
+  bluesky: ^0.7.11
   bluesky_text: ^0.2.7
   http: ^0.13.5
   image: ^4.0.15
