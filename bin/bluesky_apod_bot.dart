@@ -9,6 +9,12 @@ import 'package:nasa/nasa.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
 
+const _labelValues = <String>[
+  'apod',
+  'space',
+  'astronomy',
+];
+
 void main(List<String> args) async {
   final bluesky = bsky.Bluesky.fromSession(
     await _session,
@@ -50,12 +56,15 @@ void main(List<String> args) async {
   final headerText = BlueskyText(_getHeaderText(apod));
   final links = headerText.links;
 
+  final labels = _labels;
+
   final record = await bluesky.feeds.createPost(
     text: headerText.value,
     facets: (await links.toFacets()).map(bsky.Facet.fromJson).toList(),
     embed: blobData.blob.toEmbedImage(
       alt: apod.description,
     ),
+    labels: labels,
   );
 
   final chunks = BlueskyText(apod.description).split();
@@ -68,6 +77,7 @@ void main(List<String> args) async {
         root: record.data,
         parent: parentRecord.data,
       ),
+      labels: labels,
     );
   }
 }
@@ -148,3 +158,9 @@ Uint8List _compressImage(Uint8List fileBytes) {
 
   return fileBytes;
 }
+
+bsky.Labels get _labels => bsky.Labels.selfLabels(
+      data: bsky.SelfLabels(
+        values: _labelValues.map((e) => bsky.SelfLabel(value: e)).toList(),
+      ),
+    );
