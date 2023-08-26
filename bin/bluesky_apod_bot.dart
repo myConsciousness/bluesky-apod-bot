@@ -56,7 +56,7 @@ void main(List<String> args) async {
   final headerText = BlueskyText(_getHeaderText(apod));
   final links = headerText.links;
 
-  final labels = _labels;
+  // final labels = _labels;
 
   final record = await bluesky.feeds.createPost(
     text: headerText.value,
@@ -64,7 +64,7 @@ void main(List<String> args) async {
     embed: blobData.blob.toEmbedImage(
       alt: apod.description,
     ),
-    labels: labels,
+    // labels: labels,
   );
 
   final chunks = BlueskyText(apod.description).split();
@@ -77,7 +77,7 @@ void main(List<String> args) async {
         root: record.data,
         parent: parentRecord.data,
       ),
-      labels: labels,
+      // labels: labels,
     );
   }
 }
