@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -65,8 +66,9 @@ void main(List<String> args) async {
     text: headerText.value,
     facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
     embed: blobData?.blob.toEmbedImage(
-      alt: apod.description,
-    ),
+          alt: apod.description,
+        ) ??
+        await _getEmbedExternal(apod.url, bluesky),
     tags: _tags,
   );
 
@@ -83,6 +85,37 @@ void main(List<String> args) async {
       tags: _tags,
     );
   }
+}
+
+Future<bsky.Embed?> _getEmbedExternal(
+  final String url,
+  final bsky.Bluesky bluesky,
+) async {
+  final response = await http.get(
+    Uri.https(
+      'cardyb.bsky.app',
+      '/v1/extract',
+      {'url': url},
+    ),
+  );
+
+  if (response.statusCode != 200) return null;
+
+  final json = jsonDecode(response.body);
+
+  final imageBlob = await http.get(Uri.parse(json['image']));
+  final uploaded = await bluesky.repositories.uploadBlob(imageBlob.bodyBytes);
+
+  return bsky.Embed.external(
+    data: bsky.EmbedExternal(
+      external: bsky.EmbedExternalThumbnail(
+        uri: json['url'] ?? '',
+        title: json['title'] ?? '',
+        description: json['description'] ?? '',
+        blob: uploaded.data.blob,
+      ),
+    ),
+  );
 }
 
 Future<bsky.Session> get _session async {
