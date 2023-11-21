@@ -114,7 +114,7 @@ String _getHeaderText(final APODData apod) {
   if (apod.hdUrl == null) {
     return '''$title
 
-Official: $officialUrl
+📷 Photo: $officialUrl
 
 #Official #NASA #APOD #Astronomy #🔭
 
@@ -126,8 +126,8 @@ Official: $officialUrl
 
   return '''$title
 
-Official: $officialUrl
-HD: ${apod.hdUrl}
+📷 Photo: $officialUrl
+📸 HD Photo: ${apod.hdUrl}
 
 #Official #NASA #APOD #Astronomy #🔭
 
