@@ -45,8 +45,11 @@ void main(List<String> args) async {
 
   final apod = (await nasa.apod.lookupImage()).data;
 
-  final imageBlob = await http.get(Uri.parse(apod.url));
-  final blobData = await _getBlobData(bluesky, imageBlob.bodyBytes);
+  bsky.BlobData? blobData;
+  if (apod.mediaType == 'image') {
+    final imageBlob = await http.get(Uri.parse(apod.url));
+    blobData = await _getBlobData(bluesky, imageBlob.bodyBytes);
+  }
 
   final headerText = BlueskyText(
     _getHeaderText(apod),
@@ -61,7 +64,7 @@ void main(List<String> args) async {
   final record = await bluesky.feeds.createPost(
     text: headerText.value,
     facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
-    embed: blobData.blob.toEmbedImage(
+    embed: blobData?.blob.toEmbedImage(
       alt: apod.description,
     ),
     tags: _tags,
@@ -110,6 +113,20 @@ String _getOfficialUrl(final DateTime createdAt) {
 String _getHeaderText(final APODData apod) {
   final title = _getTitle(apod);
   final officialUrl = _getOfficialUrl(apod.createdAt);
+
+  if (apod.mediaType == 'video') {
+    return '''$title
+
+📹 Video: $officialUrl
+📺 YouTube: ${apod.url}
+
+#Official #NASA #APOD #Astronomy #🔭
+
+- Automated by @shinyakato.dev
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+
+🧵 READ MORE 🧵''';
+  }
 
   if (apod.hdUrl == null) {
     return '''$title
