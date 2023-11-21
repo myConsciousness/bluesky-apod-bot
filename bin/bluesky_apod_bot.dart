@@ -9,7 +9,7 @@ import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
-const _tags = ['NASA', 'APOD', 'Astronomy', '🔭'];
+const _tags = ['NASA', 'APOD', 'Astronomy', 'astrophotos', '🔭'];
 
 void main(List<String> args) async {
   final bluesky = bsky.Bluesky.fromSession(
@@ -153,7 +153,7 @@ String _getHeaderText(final APODData apod) {
 📹 Video: $officialUrl
 📺 YouTube: ${apod.url}
 
-#Official #NASA #APOD #Astronomy #🔭
+#astrophotos #nasa #apod #astronomy #🔭
 
 - Automated by @shinyakato.dev
 - [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
@@ -166,7 +166,7 @@ String _getHeaderText(final APODData apod) {
 
 📷 Photo: $officialUrl
 
-#Official #NASA #APOD #Astronomy #🔭
+#astrophotos #nasa #apod #astronomy #🔭
 
 - Automated by @shinyakato.dev
 - [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
@@ -179,7 +179,7 @@ String _getHeaderText(final APODData apod) {
 📷 Photo: $officialUrl
 📸 HD Photo: ${apod.hdUrl}
 
-#Official #NASA #APOD #Astronomy #🔭
+#astrophotos #nasa #apod #astronomy #🔭
 
 - Automated by @shinyakato.dev
 - [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
