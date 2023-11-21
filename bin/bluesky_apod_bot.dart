@@ -8,12 +8,7 @@ import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
-
-const _labelValues = <String>[
-  'apod',
-  'space',
-  'astronomy',
-];
+const _tags = ['NASA', 'APOD', 'Astronomy', '🔭'];
 
 void main(List<String> args) async {
   final bluesky = bsky.Bluesky.fromSession(
@@ -53,18 +48,23 @@ void main(List<String> args) async {
   final imageBlob = await http.get(Uri.parse(apod.url));
   final blobData = await _getBlobData(bluesky, imageBlob.bodyBytes);
 
-  final headerText = BlueskyText(_getHeaderText(apod));
-  final links = headerText.links;
+  final headerText = BlueskyText(
+    _getHeaderText(apod),
+    linkConfig: const LinkConfig(
+      excludeProtocol: true,
+      enableShortening: true,
+    ),
+  ).format();
 
-  // final labels = _labels;
+  final entities = headerText.entities;
 
   final record = await bluesky.feeds.createPost(
     text: headerText.value,
-    facets: (await links.toFacets()).map(bsky.Facet.fromJson).toList(),
+    facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
     embed: blobData.blob.toEmbedImage(
       alt: apod.description,
     ),
-    // labels: labels,
+    tags: _tags,
   );
 
   final chunks = BlueskyText(apod.description).split();
@@ -77,7 +77,7 @@ void main(List<String> args) async {
         root: record.data,
         parent: parentRecord.data,
       ),
-      // labels: labels,
+      tags: _tags,
     );
   }
 }
@@ -116,7 +116,12 @@ String _getHeaderText(final APODData apod) {
 
 Official: $officialUrl
 
-Please enjoy following threads too! 🔭''';
+#Official #NASA #APOD #Astronomy #🔭
+
+- Automated by @shinyakato.dev
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+
+🧵 READ MORE 🧵''';
   }
 
   return '''$title
@@ -124,7 +129,12 @@ Please enjoy following threads too! 🔭''';
 Official: $officialUrl
 HD: ${apod.hdUrl}
 
-Please enjoy following threads too! 🔭''';
+#Official #NASA #APOD #Astronomy #🔭
+
+- Automated by @shinyakato.dev
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+
+🧵 READ MORE 🧵''';
 }
 
 Future<bsky.BlobData> _getBlobData(
@@ -158,9 +168,3 @@ Uint8List _compressImage(Uint8List fileBytes) {
 
   return fileBytes;
 }
-
-bsky.Labels get _labels => bsky.Labels.selfLabels(
-      data: bsky.SelfLabels(
-        values: _labelValues.map((e) => bsky.SelfLabel(value: e)).toList(),
-      ),
-    );

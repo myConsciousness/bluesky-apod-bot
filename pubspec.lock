@@ -53,26 +53,26 @@ packages:
     dependency: transitive
     description:
       name: at_uri
-      sha256: a1f96336cf120842cf125f4e3dc2816af10ebb0ceff6a5bf414b5d24e8134422
+      sha256: "0a10c6b18c3deecd81ece36964ee698ee9ba3f8a07c870b2c9a0a76e432e8f7f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2"
   atproto:
     dependency: transitive
     description:
       name: atproto
-      sha256: "1508975355cfc94d449d79fbf71eb07ea0a04fa891e4824a18d8840f71da11ba"
+      sha256: b919bee2059a408834f2ae9d271f631d70186691633c357119fe71a7bbe08bf7
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.3"
+    version: "0.8.1"
   atproto_core:
     dependency: transitive
     description:
       name: atproto_core
-      sha256: e3f01bd14ed295be6cc1ede84ba39edf0fa0b517fe7b8da1216d3b1251c5c172
+      sha256: "71a2461ca5b0a06b76012aaec6b9a29a6dcc114b5ae11e38e41e32ddad8fc89a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.2"
+    version: "0.6.1"
   base_codecs:
     dependency: transitive
     description:
@@ -85,18 +85,18 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: ed2587686dc1217a466e273c2657cdea13556e2b33ef2726d839daa126d8da75
+      sha256: aca31d72a48368bcd3953b266aa72fafad5c96f36572ca572679f04f07ff0e37
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.3"
+    version: "0.10.1"
   bluesky_text:
     dependency: "direct main"
     description:
       name: bluesky_text
-      sha256: "3aca452fb7a37782564ce0a89b81fa37195303178cd1170ac66a21a1e8035005"
+      sha256: "1b40bc6f768f5fb4c64abe68edbc50fbef41ecbbc2910b91d9f74b9ff6c6e40a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.6.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -565,10 +565,10 @@ packages:
     dependency: transitive
     description:
       name: xrpc
-      sha256: "1911af773345ab14a80357b894183389542fc6b21b3bb2830b5a622ccee417ac"
+      sha256: "03c2cecea7d1c8ac8b2548432fb9c4ef8a130f316479cf13ca042ba552f4ecde"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.4.1"
   yaml:
     dependency: transitive
     description:
