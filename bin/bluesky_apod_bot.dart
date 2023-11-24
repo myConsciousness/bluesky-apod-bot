@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bluesky/bluesky.dart' as bsky;
+import 'package:bluesky/cardyb.dart' as cardyb;
 import 'package:bluesky_text/bluesky_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
@@ -91,31 +91,25 @@ Future<bsky.Embed?> _getEmbedExternal(
   final String url,
   final bsky.Bluesky bluesky,
 ) async {
-  final response = await http.get(
-    Uri.https(
-      'cardyb.bsky.app',
-      '/v1/extract',
-      {'url': url},
-    ),
-  );
+  try {
+    final preview = await cardyb.findLinkPreview(Uri.parse(url));
 
-  if (response.statusCode != 200) return null;
+    final imageBlob = await http.get(Uri.parse(preview.data.image));
+    final uploaded = await bluesky.repositories.uploadBlob(imageBlob.bodyBytes);
 
-  final json = jsonDecode(response.body);
-
-  final imageBlob = await http.get(Uri.parse(json['image']));
-  final uploaded = await bluesky.repositories.uploadBlob(imageBlob.bodyBytes);
-
-  return bsky.Embed.external(
-    data: bsky.EmbedExternal(
-      external: bsky.EmbedExternalThumbnail(
-        uri: json['url'] ?? '',
-        title: json['title'] ?? '',
-        description: json['description'] ?? '',
-        blob: uploaded.data.blob,
+    return bsky.Embed.external(
+      data: bsky.EmbedExternal(
+        external: bsky.EmbedExternalThumbnail(
+          uri: preview.data.url,
+          title: preview.data.title,
+          description: preview.data.description,
+          blob: uploaded.data.blob,
+        ),
       ),
-    ),
-  );
+    );
+  } catch (_) {
+    return null;
+  }
 }
 
 Future<bsky.Session> get _session async {
