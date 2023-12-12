@@ -11,6 +11,8 @@ import 'package:nasa/nasa.dart';
 const _apodOfficialUrl = 'https://apod.nasa.gov';
 const _tags = ['nasa', 'apod', 'astronomy', 'astrophotos', '🔭'];
 
+const _videoUrl = 'https://www.youtube.com/watch?v=';
+
 void main(List<String> args) async {
   final bluesky = bsky.Bluesky.fromSession(
     await _session,
@@ -92,7 +94,10 @@ Future<bsky.Embed?> _getEmbedExternal(
   final bsky.Bluesky bluesky,
 ) async {
   try {
-    final preview = await cardyb.findLinkPreview(Uri.parse(url));
+    final videoId = url.split('/').last.split('?').first;
+    final preview = await cardyb.findLinkPreview(
+      Uri.parse(_videoUrl + videoId),
+    );
 
     final imageBlob = await http.get(Uri.parse(preview.data.image));
     final uploaded = await bluesky.repositories.uploadBlob(imageBlob.bodyBytes);
