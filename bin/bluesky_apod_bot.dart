@@ -21,7 +21,7 @@ void main(List<String> args) async {
     ),
   );
 
-  final head = await bluesky.feeds.findFeed(
+  final head = await bluesky.feed.findFeed(
     actor: Platform.environment['BLUESKY_IDENTIFIER']!,
     limit: 50,
   );
@@ -34,7 +34,7 @@ void main(List<String> args) async {
         .first
         .post;
 
-    await bluesky.feeds.createRepost(
+    await bluesky.feed.createRepost(
       cid: headParent.cid,
       uri: headParent.uri,
     );
@@ -64,7 +64,7 @@ void main(List<String> args) async {
 
   final entities = headerText.entities;
 
-  final record = await bluesky.feeds.createPost(
+  final record = await bluesky.feed.createPost(
     text: headerText.value,
     facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
     embed: blobData?.blob.toEmbedImage(
@@ -78,7 +78,7 @@ void main(List<String> args) async {
 
   var parentRecord = record;
   for (final chunk in chunks) {
-    parentRecord = await bluesky.feeds.createPost(
+    parentRecord = await bluesky.feed.createPost(
       text: chunk.value,
       reply: bsky.ReplyRef(
         root: record.data,
@@ -100,7 +100,7 @@ Future<bsky.Embed?> _getEmbedExternal(
     );
 
     final imageBlob = await http.get(Uri.parse(preview.data.image));
-    final uploaded = await bluesky.repositories.uploadBlob(imageBlob.bodyBytes);
+    final uploaded = await bluesky.repo.uploadBlob(imageBlob.bodyBytes);
 
     return bsky.Embed.external(
       data: bsky.EmbedExternal(
@@ -192,7 +192,7 @@ Future<bsky.BlobData> _getBlobData(
   final bsky.Bluesky bluesky,
   final Uint8List image,
 ) async {
-  final response = await bluesky.repositories.uploadBlob(
+  final response = await bluesky.repo.uploadBlob(
     _compressImage(image),
   );
 
