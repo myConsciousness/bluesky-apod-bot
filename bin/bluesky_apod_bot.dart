@@ -21,7 +21,7 @@ void main(List<String> args) async {
     ),
   );
 
-  final head = await bluesky.feed.findFeed(
+  final head = await bluesky.feed.getAuthorFeed(
     actor: Platform.environment['BLUESKY_IDENTIFIER']!,
     limit: 50,
   );
@@ -34,7 +34,7 @@ void main(List<String> args) async {
         .first
         .post;
 
-    await bluesky.feed.createRepost(
+    await bluesky.feed.repost(
       cid: headParent.cid,
       uri: headParent.uri,
     );
@@ -64,7 +64,7 @@ void main(List<String> args) async {
 
   final entities = headerText.entities;
 
-  final record = await bluesky.feed.createPost(
+  final record = await bluesky.feed.post(
     text: headerText.value,
     facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
     embed: blobData?.blob.toEmbedImage(
@@ -78,7 +78,7 @@ void main(List<String> args) async {
 
   var parentRecord = record;
   for (final chunk in chunks) {
-    parentRecord = await bluesky.feed.createPost(
+    parentRecord = await bluesky.feed.post(
       text: chunk.value,
       reply: bsky.ReplyRef(
         root: record.data,

@@ -61,18 +61,18 @@ packages:
     dependency: transitive
     description:
       name: atproto
-      sha256: "3be2a3d84e60dfb410fdc5641c7247985b580029d81ea1cd9ced76ebc07f4500"
+      sha256: "015af8457bd1ae08d3b99bcddbead971f8722ad7abb5ddafeb5acfe5602b548b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0"
+    version: "0.11.0"
   atproto_core:
     dependency: transitive
     description:
       name: atproto_core
-      sha256: c25105c807d60c7ab10084b74c2b336eeef8b8441c29e8681f110d535656601a
+      sha256: c25c7c4fe163f5dd206ce53f890d3805429ca3135d27ae490b9979a2bfe217df
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "0.9.0"
   base_codecs:
     dependency: transitive
     description:
@@ -85,18 +85,18 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: "3f37db5f56e624f6f7849145e1b91816b8ddc172ef9711e72f8046b2d1b72dbb"
+      sha256: "77df53a9dc5e74ea5b30d3d2b6f7d93a05b0899aaa2efc7a19455d9c3570547c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.0"
+    version: "0.15.1"
   bluesky_text:
     dependency: "direct main"
     description:
       name: bluesky_text
-      sha256: "9bdabdc7ee994757ece6ccf9776db75e026f6f7e05bec10f8c6547768b75fea6"
+      sha256: "0ff7bfe120fbe9004cbc9dac12cf8600e34e72ed973bec95ff1039e19081485e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.3"
+    version: "0.6.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -565,10 +565,10 @@ packages:
     dependency: transitive
     description:
       name: xrpc
-      sha256: fee0428bf13356b6a75ff3781548435f66426124329daad8d4c6168f8de83e76
+      sha256: a94544be95d5948c60304b4493d89f65dd88cb5c9ee7aabdeebcc23c192a20f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.3"
   yaml:
     dependency: transitive
     description:
