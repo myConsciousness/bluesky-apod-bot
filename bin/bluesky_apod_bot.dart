@@ -9,7 +9,7 @@ import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
-const _tags = ['astronomy', 'astrophotos', '🔭'];
+const _tags = ['nasa', 'apod', 'astronomy', 'astrophotos', '🔭'];
 
 const _videoUrl = 'https://www.youtube.com/watch?v=';
 
@@ -146,7 +146,7 @@ String _getHeaderText(final APODData apod) {
   final title = _getTitle(apod);
   final officialUrl = _getOfficialUrl(apod.createdAt);
 
-  final tags = _tags.map((e) => '#$e').join(' ');
+  final tags = _tags.sublist(2).map((e) => '#$e').join(' ');
 
   if (apod.mediaType == 'video') {
     return '''$title
