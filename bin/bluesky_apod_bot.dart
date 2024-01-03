@@ -9,7 +9,7 @@ import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
-const _tags = ['nasa', 'apod', 'astronomy', 'astrophotos', '🔭'];
+const _tags = ['astronomy', 'astrophotos', '🔭'];
 
 const _videoUrl = 'https://www.youtube.com/watch?v=';
 
