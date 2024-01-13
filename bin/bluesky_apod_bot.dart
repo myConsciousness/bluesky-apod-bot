@@ -151,12 +151,13 @@ String _getHeaderText(final APODData apod) {
   if (apod.mediaType == 'video') {
     return '''$title
 
-- [Video]($officialUrl)
-- [YouTube](${apod.url})
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
-- Maintained by @shinyakato.dev
+- [📹Video]($officialUrl)
+- [📺YouTube](${apod.url})
+- [ℹ️About NASA Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 $tags
+
+Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
   }
@@ -164,23 +165,25 @@ $tags
   if (apod.hdUrl == null) {
     return '''$title
 
-- [Photo]($officialUrl)
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
-- Maintained by @shinyakato.dev
+- [📷Photo]($officialUrl)
+- [ℹ️About NASA Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 $tags
+
+Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
   }
 
   return '''$title
 
-- [Photo]($officialUrl)
-- [HD Photo](${apod.hdUrl})
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
-- Maintained by @shinyakato.dev
+- [📷Photo]($officialUrl)
+- [📸HD Photo](${apod.hdUrl})
+- [ℹ️About NASA Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 $tags
+
+Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
 }
