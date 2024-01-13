@@ -157,10 +157,9 @@ String _getHeaderText(final APODData apod) {
 - [📹Video]($officialUrl)
 - [📺YouTube](${apod.url})
 - $_markdownAboutAPOD
+- 🔧 Maintained by @shinyakato.dev
 
 $tags
-
-Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
   }
@@ -170,23 +169,21 @@ Maintained by @shinyakato.dev
 
 - [📷Photo]($officialUrl)
 - $_markdownAboutAPOD
+- 🔧 Maintained by @shinyakato.dev
 
 $tags
-
-Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
   }
 
   return '''$title
 
-- [📷Photo]($officialUrl)
-- [📸HD Photo](${apod.hdUrl})
+- [📷 Photo]($officialUrl)
+- [📸 HD Photo](${apod.hdUrl})
 - $_markdownAboutAPOD
+- 🔧 Maintained by @shinyakato.dev
 
 $tags
-
-Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
 }
