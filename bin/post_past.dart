@@ -11,7 +11,11 @@ Future<void> main(List<String> args) async {
     Duration(days: -1),
   );
 
-  await post(date);
+  try {
+    await post(date);
+  } catch (_) {
+    meta['errorDates'].add(date.toIso8601String());
+  }
 
   meta['pastLastIndexedAt'] = date.toIso8601String();
 
