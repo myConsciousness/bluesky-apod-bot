@@ -214,7 +214,7 @@ Uint8List _compressImage(Uint8List fileBytes) {
     if (compressedSize < 976.56 * 1024) {
       quality += 10;
     } else {
-      quality -= 10;
+      quality -= 15;
     }
 
     fileBytes = encodedImage;
