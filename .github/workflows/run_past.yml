@@ -1,9 +1,7 @@
-name: Run
+name: Run Past
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */3 * * *"
 
 jobs:
   validate:
