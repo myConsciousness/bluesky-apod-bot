@@ -146,18 +146,17 @@ String _getHeaderText(final APODData apod) {
   final title = _getTitle(apod);
   final officialUrl = _getOfficialUrl(apod.createdAt);
 
-  final tags = _tags.sublist(2).map((e) => '#$e').join(' ');
+  final tags = _tags.map((e) => '#$e').join(' ');
 
   if (apod.mediaType == 'video') {
     return '''$title
 
-📹 Video: $officialUrl
-📺 YouTube: ${apod.url}
+- [Video]($officialUrl)
+- [YouTube](${apod.url})
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+- Maintained by @shinyakato.dev
 
 $tags
-
-- Automated by @shinyakato.dev
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 🧵 READ MORE 🧵''';
   }
@@ -165,25 +164,23 @@ $tags
   if (apod.hdUrl == null) {
     return '''$title
 
-📷 Photo: $officialUrl
+- [Photo]($officialUrl)
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+- Maintained by @shinyakato.dev
 
 $tags
-
-- Automated by @shinyakato.dev
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 🧵 READ MORE 🧵''';
   }
 
   return '''$title
 
-📷 Photo: $officialUrl
-📸 HD Photo: ${apod.hdUrl}
+- [Photo]($officialUrl)
+- [HD Photo](${apod.hdUrl})
+- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
+- Maintained by @shinyakato.dev
 
 $tags
-
-- Automated by @shinyakato.dev
-- [About NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)
 
 🧵 READ MORE 🧵''';
 }
