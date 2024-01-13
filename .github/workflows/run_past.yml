@@ -3,7 +3,7 @@ name: Run
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8,20 * * *"
+    - cron: "0 */3 * * *"
 
 jobs:
   validate:
@@ -21,8 +21,15 @@ jobs:
       run: dart pub get
 
     - name: Run Script
-      run: dart run ./bin/post_today.dart
+      run: dart run ./bin/post_past.dart
       env:
         BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
         BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
         NASA_API_TOKEN: ${{ secrets.NASA_API_TOKEN }}
+
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "[Scheduled] Migrate past index"
+        commit_user_name: myConsciousness
+        commit_user_email: contact@shinyakato.dev
+        commit_author: myConsciousness <contact@shinyakato.dev>

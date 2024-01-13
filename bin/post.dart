@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:bluesky/bluesky.dart' as bsky;
 import 'package:bluesky/cardyb.dart' as cardyb;
 import 'package:bluesky_text/bluesky_text.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
+
+import 'session.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
 const _tags = ['apod', 'science', 'astronomy', 'astrophotos', '🔭'];
@@ -16,40 +18,19 @@ const _videoUrl = 'https://www.youtube.com/watch?v=';
 const _markdownAboutAPOD =
     '[About NASA Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
 
-void main(List<String> args) async {
+Future<void> post([DateTime? date]) async {
   final bluesky = bsky.Bluesky.fromSession(
-    await _session,
+    await session,
     retryConfig: bsky.RetryConfig(
       maxAttempts: 10,
     ),
   );
 
-  final head = await bluesky.feed.getAuthorFeed(
-    actor: Platform.environment['BLUESKY_IDENTIFIER']!,
-    limit: 50,
-  );
-
-  final headPost = head.data.feed.first.post;
-
-  if (headPost.isNotReposted) {
-    final headParent = head.data.feed
-        .where((element) => element.reply == null && element.reason == null)
-        .first
-        .post;
-
-    await bluesky.feed.repost(
-      cid: headParent.cid,
-      uri: headParent.uri,
-    );
-
-    return;
-  }
-
   final nasa = NasaApi(
     token: Platform.environment['NASA_API_TOKEN']!,
   );
 
-  final apod = (await nasa.apod.lookupImage()).data;
+  final apod = (await nasa.apod.lookupImage(date: date)).data;
 
   bsky.BlobData? blobData;
   if (apod.mediaType == 'image') {
@@ -75,6 +56,7 @@ void main(List<String> args) async {
         ) ??
         await _getEmbedExternal(apod.url, bluesky),
     tags: _tags,
+    createdAt: date,
   );
 
   final chunks = BlueskyText(apod.description).split();
@@ -88,6 +70,7 @@ void main(List<String> args) async {
         parent: parentRecord.data,
       ),
       tags: _tags,
+      createdAt: date,
     );
   }
 }
@@ -118,15 +101,6 @@ Future<bsky.Embed?> _getEmbedExternal(
   } catch (_) {
     return null;
   }
-}
-
-Future<bsky.Session> get _session async {
-  final session = await bsky.createSession(
-    identifier: Platform.environment['BLUESKY_IDENTIFIER']!,
-    password: Platform.environment['BLUESKY_PASSWORD']!,
-  );
-
-  return session.data;
 }
 
 String _getTitle(final APODData apod) {
