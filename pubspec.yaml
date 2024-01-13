@@ -10,10 +10,7 @@ dependencies:
   bluesky_text: ^0.6.4
   http: ^1.1.0
   image: ^4.0.15
-  nasa: ^0.0.3
-
-dependency_overrides:
-  http: ^1.1.0
+  nasa: ^0.0.4
 
 dev_dependencies:
   lints: ^2.0.0
