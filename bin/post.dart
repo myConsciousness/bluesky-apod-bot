@@ -123,16 +123,12 @@ String _getHeaderText(final APODData apod) {
   final title = _getTitle(apod);
   final officialUrl = _getOfficialUrl(apod.createdAt);
 
-  final tags = _tags.map((e) => '#$e').join(' ');
-
   if (apod.mediaType == 'video') {
     return '''$title
 
 - [Video]($officialUrl)
 - [YouTube](${apod.url})
 - $_markdownAboutAPOD
-
-$tags
 
 Maintained by @shinyakato.dev
 
@@ -145,8 +141,6 @@ Maintained by @shinyakato.dev
 - [Photo]($officialUrl)
 - $_markdownAboutAPOD
 
-$tags
-
 Maintained by @shinyakato.dev
 
 🧵 READ MORE 🧵''';
@@ -157,8 +151,6 @@ Maintained by @shinyakato.dev
 - [Photo]($officialUrl)
 - [HD Photo](${apod.hdUrl})
 - $_markdownAboutAPOD
-
-$tags
 
 Maintained by @shinyakato.dev
 
