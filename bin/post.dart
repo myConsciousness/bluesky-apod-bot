@@ -16,7 +16,7 @@ const _tags = ['apod', 'science', 'astronomy', 'astrophotos', '🔭'];
 const _videoUrl = 'https://www.youtube.com/watch?v=';
 
 const _markdownAboutAPOD =
-    '[About NASA Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
+    '[About Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
 
 Future<void> post([DateTime? date]) async {
   final bluesky = bsky.Bluesky.fromSession(
@@ -130,9 +130,11 @@ String _getHeaderText(final APODData apod) {
 - [YouTube](${apod.url})
 - $_markdownAboutAPOD
 
+#astrophotos
+
 Maintained by @shinyakato.dev
 
-🧵 READ MORE 🧵''';
+🔭 READ MORE 🔭''';
   }
 
   if (apod.hdUrl == null) {
@@ -141,9 +143,11 @@ Maintained by @shinyakato.dev
 - [Photo]($officialUrl)
 - $_markdownAboutAPOD
 
+#astrophotos
+
 Maintained by @shinyakato.dev
 
-🧵 READ MORE 🧵''';
+🔭 READ MORE 🔭''';
   }
 
   return '''$title
@@ -152,9 +156,11 @@ Maintained by @shinyakato.dev
 - [HD Photo](${apod.hdUrl})
 - $_markdownAboutAPOD
 
+#astrophotos
+
 Maintained by @shinyakato.dev
 
-🧵 READ MORE 🧵''';
+🔭 READ MORE 🔭''';
 }
 
 Future<bsky.BlobData> _getBlobData(
