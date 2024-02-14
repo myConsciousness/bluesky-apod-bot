@@ -28,6 +28,7 @@ Future<void> post([DateTime? date]) async {
 
   final nasa = NasaApi(
     token: Platform.environment['NASA_API_TOKEN']!,
+    timeout: const Duration(seconds: 30),
   );
 
   final apod = (await nasa.apod.lookupImage(date: date)).data;
