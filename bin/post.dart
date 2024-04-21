@@ -57,7 +57,6 @@ Future<void> post([DateTime? date]) async {
         ) ??
         await _getEmbedExternal(apod.url, bluesky),
     tags: _tags,
-    createdAt: date,
   );
 
   final chunks = BlueskyText(apod.description).split();
@@ -71,7 +70,6 @@ Future<void> post([DateTime? date]) async {
         parent: parentRecord.data,
       ),
       tags: _tags,
-      createdAt: date,
     );
   }
 }
