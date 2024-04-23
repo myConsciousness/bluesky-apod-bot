@@ -7,7 +7,7 @@ RUN dart pub get
 RUN dart compile exe ./src/main.dart -o ./bootstrap
 RUN chmod +x bootstrap
 
-FROM --platform=linux/amd64 public.ecr.aws/lambda/provided:latest
+FROM public.ecr.aws/lambda/provided:latest
 
 COPY --from=build-image /work/bootstrap /var/runtime/
 

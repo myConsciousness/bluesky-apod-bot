@@ -9,8 +9,6 @@ provider:
     images:
       appImage:
         path: ./
-        platform: linux/amd64
-  architecture: arm64
 
 functions:
   today:
