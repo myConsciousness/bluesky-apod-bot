@@ -5,7 +5,7 @@ import 'package:bluesky/bluesky.dart' as bsky;
 import 'post.dart';
 import 'session.dart';
 
-void main(List<String> args) async {
+Future<void> postToday() async {
   final bluesky = bsky.Bluesky.fromSession(
     await session,
     retryConfig: bsky.RetryConfig(

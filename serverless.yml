@@ -1,0 +1,27 @@
+service: bluesky-bot-apod
+
+custom:
+  defaultStage: dev
+
+provider:
+  name: aws
+  runtime: provided
+  timeout: 20
+  region: ap-northeast-1
+  ecr:
+    images:
+      appImage:
+        path: ./
+        platform: linux/amd64
+  stage: ${opt:stage, self:custom.defaultStage}
+
+functions:
+  today:
+    image:
+      name: appImage
+      command:
+        - main.today
+    events:
+      - http:
+          path: today
+          method: post
