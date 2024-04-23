@@ -5,6 +5,11 @@ provider:
   runtime: provided
   timeout: 20
   region: ap-northeast-1
+  ecr:
+    images:
+      appImage:
+        path: ./
+        platform: linux/amd64
   architecture: arm64
 
 functions:
