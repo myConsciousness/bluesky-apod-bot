@@ -1,13 +1,6 @@
 import 'aws/runtime.dart';
-import 'post/post_today.dart';
+import 'function.dart' as fn;
 
-void main(List<String> args) {
-  handler('main.today', (event) async {
-    await postToday();
-
-    return {
-      'statusCode': 200,
-      'body': event['body'],
-    };
-  });
+void main() {
+  handler('main.today', fn.today);
 }
