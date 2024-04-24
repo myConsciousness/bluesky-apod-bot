@@ -76,10 +76,11 @@ packages:
   aws_lambda_dart_runtime_ns:
     dependency: "direct main"
     description:
-      name: aws_lambda_dart_runtime_ns
-      sha256: e09990f99a38e155c10ed9f2976031c3f6bf132b97bc295b33c97cebdd596086
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "71edbb715a2b2dd6d41a262f279f36597c8709de"
+      url: "https://github.com/myConsciousness/aws-lambda-dart-runtime-ns.git"
+    source: git
     version: "0.0.7"
   base_codecs:
     dependency: transitive
