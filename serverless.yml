@@ -3,7 +3,7 @@ service: bluesky-bot-apod
 provider:
   name: aws
   runtime: provided
-  timeout: 60
+  timeout: 30
   region: ap-northeast-1
   ecr:
     images:
