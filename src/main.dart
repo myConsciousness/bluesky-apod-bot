@@ -13,8 +13,7 @@ Future<void> main() async {
             return InvocationResult(
               requestId: context.requestId,
               body: {
-                'statusCode': 200,
-                'body': event,
+                'message': 'success',
               },
             );
           },
