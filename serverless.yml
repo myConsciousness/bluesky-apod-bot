@@ -10,6 +10,7 @@ provider:
       appImage:
         path: ./
         platform: linux/amd64
+  architecture: arm64
   environment:
     BLUESKY_IDENTIFIER: ${env:BLUESKY_IDENTIFIER}
     BLUESKY_PASSWORD: ${env:BLUESKY_PASSWORD}
