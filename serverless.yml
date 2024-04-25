@@ -12,8 +12,8 @@ provider:
         platform: linux/arm64
   architecture: arm64
   environment:
-    BLUESKY_IDENTIFIER: ${env:BLUESKY_IDENTIFIER}
-    BLUESKY_PASSWORD: ${env:BLUESKY_PASSWORD}
+    BLUESKY_IDENTIFIER: ${env:BLUESKY_APOD_IDENTIFIER}
+    BLUESKY_PASSWORD: ${env:BLUESKY_APOD_PASSWORD}
     NASA_API_TOKEN: ${env:NASA_API_TOKEN}
 
 functions:
