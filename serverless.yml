@@ -10,6 +10,10 @@ provider:
       appImage:
         path: ./
         platform: linux/amd64
+  environment:
+    BLUESKY_IDENTIFIER: ${env:BLUESKY_IDENTIFIER}
+    BLUESKY_PASSWORD: ${env:BLUESKY_PASSWORD}
+    NASA_API_TOKEN: ${env:NASA_API_TOKEN}
 
 functions:
   today:

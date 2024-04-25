@@ -3,7 +3,7 @@
 ```mermaid
 sequenceDiagram;
     participant Lambda as "AWS Lambda";
-    participant EventBridge as "EventBridge";
+    participant EventBridge as "Amazon EventBridge";
     participant NASA_API as "NASA API";
     participant Bluesky as "Bluesky";
     participant CloudWatch as "AWS CloudWatch Logs";
