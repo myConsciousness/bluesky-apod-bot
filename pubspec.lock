@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: aws_lambda_dart_runtime_ns
-      sha256: "5c196cbf661018aacfad547e92fd4037583827b3c35415e9dd51fead064acf7f"
+      sha256: "635f69ad896a3a742034ca4df06b7a5e2825b9712d0b1c4144d405484e9a3414"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.10"
+    version: "0.0.11"
   base_codecs:
     dependency: transitive
     description:
