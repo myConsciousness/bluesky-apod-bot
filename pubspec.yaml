@@ -7,6 +7,7 @@ dependencies:
   aws_lambda_dart_runtime_ns: ^0.0.9
   bluesky: ^0.15.17
   bluesky_text: ^0.6.9
+  http: ^1.2.1
   image: ^4.0.15
   nasa: ^0.0.4
 
