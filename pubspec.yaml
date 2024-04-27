@@ -4,8 +4,8 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  aws_lambda_dart_runtime_ns: ^0.0.12
-  bluesky: ^0.15.17
+  aws_lambda_dart_runtime_ns: ^0.0.13
+  bluesky: ^0.15.18
   bluesky_text: ^0.6.9
   http: ^1.2.1
   image: ^4.0.15

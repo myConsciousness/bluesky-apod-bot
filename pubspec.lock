@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: aws_lambda_dart_runtime_ns
-      sha256: "63360d15baa870ce8a400134fec5d9c13c35ee6603cc2649de0ade47a1d5d709"
+      sha256: "9151c3d86df9f01317379fc81649f239d18ff61ecd5d458d2930726c99964d7e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.12"
+    version: "0.0.13"
   base_codecs:
     dependency: transitive
     description:
@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: "8496ea06365f35183d1cb846a6e2fc7ad3e3dbe37f133ed2e6ec60e7c868ed5e"
+      sha256: "331e9f4bf125ccb2338cb6c431f82cc5a69f8f0b595a3ba930fba3880a64a6db"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.17"
+    version: "0.15.18"
   bluesky_text:
     dependency: "direct main"
     description:
