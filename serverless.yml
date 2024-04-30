@@ -45,7 +45,7 @@ functions:
       - http:
           path: repost/againADayLater
           method: post
-  repostAgainTwiDaysLater:
+  repostAgainTwoDaysLater:
     image:
       name: appImage
       command:
