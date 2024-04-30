@@ -20,9 +20,13 @@ Future<void> putObject(
     );
 
 Future<List<List<dynamic>>> getObject(final S3 s3) async {
-  final object = await s3.getObject(bucket: _kBucket, key: _bucketKey);
+  try {
+    final object = await s3.getObject(bucket: _kBucket, key: _bucketKey);
 
-  return object.body != null
-      ? _toCsv.convert(utf8.decode(object.body!))
-      : <List<dynamic>>[];
+    return object.body != null
+        ? _toCsv.convert(utf8.decode(object.body!))
+        : <List<dynamic>>[];
+  } catch (_) {
+    return <List<dynamic>>[];
+  }
 }
