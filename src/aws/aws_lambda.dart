@@ -7,17 +7,17 @@ import '../post/repost.dart';
 import 'aws_s3.dart';
 
 enum PostStatus {
-  posted('0', 0),
-  reposted('1', 0),
-  repostedAgainADayLater('2', 1),
-  repostedAgainTwoDaysLater('3', 2);
+  posted(0, 0),
+  reposted(1, 0),
+  repostedAgainADayLater(2, 1),
+  repostedAgainTwoDaysLater(3, 2);
 
-  final String value;
+  final int value;
   final int offset;
 
   const PostStatus(this.value, this.offset);
 
-  static PostStatus? valueOf(final String value) {
+  static PostStatus? valueOf(final int value) {
     for (final $value in values) {
       if ($value.value == value) {
         return $value;
