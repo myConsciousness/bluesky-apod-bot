@@ -36,3 +36,21 @@ functions:
       - http:
           path: repost/today
           method: post
+  repostAgainADayLater:
+    image:
+      name: appImage
+      command:
+        - repost.againADayLater
+    events:
+      - http:
+          path: repost/againADayLater
+          method: post
+  repostAgainTwiDaysLater:
+    image:
+      name: appImage
+      command:
+        - repost.againTwoDaysLater
+    events:
+      - http:
+          path: repost/againTwoDaysLater
+          method: post
