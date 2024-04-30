@@ -101,7 +101,7 @@ FunctionAction _repost(
         return InvocationResult(requestId: context.requestId);
       }
 
-      final record = csv[csv.length - nextStatus.offset];
+      final record = csv[csv.length - nextStatus.offset - 1];
       final status = PostStatus.valueOf(record[2]);
 
       if (status != null &&
