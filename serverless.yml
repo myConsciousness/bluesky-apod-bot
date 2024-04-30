@@ -17,12 +17,21 @@ provider:
     NASA_API_TOKEN: ${env:NASA_API_TOKEN}
 
 functions:
-  today:
+  postToday:
     image:
       name: appImage
       command:
-        - main.today
+        - post.today
     events:
       - http:
-          path: today
+          path: post/today
+          method: post
+  repostToday:
+    image:
+      name: appImage
+      command:
+        - repost.today
+    events:
+      - http:
+          path: repost/today
           method: post

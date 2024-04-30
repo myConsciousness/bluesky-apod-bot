@@ -18,13 +18,8 @@ const _videoUrl = 'https://www.youtube.com/watch?v=';
 const _markdownAboutAPOD =
     '[About Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
 
-Future<void> post([DateTime? date]) async {
-  final bluesky = bsky.Bluesky.fromSession(
-    await session,
-    retryConfig: bsky.RetryConfig(
-      maxAttempts: 10,
-    ),
-  );
+Future<bsky.AtUri> post([DateTime? date]) async {
+  final bluesky = bsky.Bluesky.fromSession(await session);
 
   final nasa = NasaApi(
     token: Platform.environment['NASA_API_TOKEN']!,
@@ -72,6 +67,8 @@ Future<void> post([DateTime? date]) async {
       tags: _tags,
     );
   }
+
+  return record.data.uri;
 }
 
 Future<bsky.Embed?> _getEmbedExternal(

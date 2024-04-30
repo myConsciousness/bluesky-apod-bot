@@ -5,12 +5,18 @@ environment:
 
 dependencies:
   aws_lambda_dart_runtime_ns: ^0.0.13
+  aws_s3_api: ^2.0.0
   bluesky: ^0.15.18
   bluesky_text: ^0.6.9
-  http: ^1.2.1
+  csv: ^6.0.0
   image: ^4.0.15
   nasa: ^0.0.4
+  intl: '>=0.17.0 <0.20.0'
 
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
+
+dependency_overrides:
+  http: '>=0.13.1 <2.0.0'
+  intl: '>=0.17.0 <0.20.0'
