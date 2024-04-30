@@ -7,7 +7,7 @@ const _toCsv = CsvToListConverter();
 const _fromCsv = ListToCsvConverter();
 
 const _kBucket = 's3-bluesky-bot-apod';
-final _bucketKey = 'history/${DateTime.now().year}.json';
+final _bucketKey = 'history/${DateTime.now().year}.csv';
 
 Future<void> putObject(
   final S3 s3,
