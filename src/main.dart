@@ -10,5 +10,6 @@ Future<void> main() async {
 
   await invokeAwsLambdaRuntime([
     fn.postToday(s3),
+    fn.repostToday(s3),
   ]);
 }
