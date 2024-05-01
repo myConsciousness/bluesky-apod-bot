@@ -7,7 +7,7 @@ const _toCsv = CsvToListConverter();
 const _fromCsv = ListToCsvConverter();
 
 const _kBucket = 's3-bluesky-bot-apod';
-final _bucketKey = 'history/${DateTime.now().year}.csv';
+const _kBucketKey = 'history.csv';
 
 Future<void> putObject(
   final S3 s3,
@@ -15,13 +15,13 @@ Future<void> putObject(
 ) async =>
     await s3.putObject(
       bucket: _kBucket,
-      key: _bucketKey,
+      key: _kBucketKey,
       body: utf8.encode(_fromCsv.convert(csv)),
     );
 
 Future<List<List<dynamic>>> getObject(final S3 s3) async {
   try {
-    final object = await s3.getObject(bucket: _kBucket, key: _bucketKey);
+    final object = await s3.getObject(bucket: _kBucket, key: _kBucketKey);
 
     return object.body != null
         ? _toCsv.convert(utf8.decode(object.body!))

@@ -47,16 +47,14 @@ String _getCsvKey(final DateTime dateTime) =>
 FunctionHandler postToday(final S3 s3) => FunctionHandler(
       name: 'post.today',
       action: (context, event) async {
-        final today = DateTime.now();
-
-        final uri = await post(today);
+        final uri = await post();
         final csv = await getObject(s3);
 
         await putObject(
           s3,
           csv
             ..add([
-              _getCsvKey(today),
+              _getCsvKey(DateTime.now().toUtc()),
               uri.rkey,
               PostStatus.posted.value,
             ]),
