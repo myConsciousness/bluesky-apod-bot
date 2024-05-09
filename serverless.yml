@@ -24,33 +24,29 @@ functions:
       command:
         - post.today
     events:
-      - http:
-          path: post/today
-          method: post
+      - eventBridge:
+          schedule: cron(0 8 * * ? *)
   repostToday:
     image:
       name: appImage
       command:
         - repost.today
     events:
-      - http:
-          path: repost/today
-          method: post
+      - eventBridge:
+          schedule: cron(0 20 * * ? *)
   repostAgainADayLater:
     image:
       name: appImage
       command:
         - repost.againADayLater
     events:
-      - http:
-          path: repost/againADayLater
-          method: post
+      - eventBridge:
+          schedule: cron(0 11 * * ? *)
   repostAgainTwoDaysLater:
     image:
       name: appImage
       command:
         - repost.againTwoDaysLater
     events:
-      - http:
-          path: repost/againTwoDaysLater
-          method: post
+      - eventBridge:
+          schedule: cron(0 23 * * ? *)
