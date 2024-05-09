@@ -136,7 +136,7 @@ Maintained by @shinyakato.dev
   if (apod.hdUrl == null) {
     return '''$title
 
-- [Photo]($officialUrl)
+- [Pic]($officialUrl)
 - $_markdownAboutAPOD
 
 #astrophotos
@@ -148,8 +148,8 @@ Maintained by @shinyakato.dev
 
   return '''$title
 
-- [Photo]($officialUrl)
-- [HD Photo](${apod.hdUrl})
+- [Pic]($officialUrl)
+- [HD Pic](${apod.hdUrl})
 - $_markdownAboutAPOD
 
 #astrophotos
