@@ -10,8 +10,8 @@ Future<void> main() async {
 
   await invokeAwsLambdaRuntime([
     fn.postToday(s3),
-    fn.repostToday(s3),
-    fn.repostAgainADayLater(s3),
-    fn.repostAgainTwoDaysLater(s3),
+    fn.postRecovery(s3),
+    fn.repost(s3),
+    fn.repostAgain(s3),
   ]);
 }
