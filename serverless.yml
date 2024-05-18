@@ -37,7 +37,7 @@ functions:
         - post.recovery
     events:
       - eventBridge:
-          schedule: cron(0 10 * * ? *)
+          schedule: cron(0 9,10 * * ? *)
   repost:
     maximumRetryAttempts: 0
     image:
@@ -46,7 +46,7 @@ functions:
         - repost
     events:
       - eventBridge:
-          schedule: cron(0 2,20 * * ? *)
+          schedule: cron(0 20 * * ? *)
   repostAgain:
     maximumRetryAttempts: 0
     image:
@@ -55,4 +55,4 @@ functions:
         - repost.again
     events:
       - eventBridge:
-          schedule: cron(0 11,15 * * ? *)
+          schedule: cron(0 11 * * ? *)
