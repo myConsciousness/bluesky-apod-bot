@@ -58,8 +58,6 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
                 PostStatus.posted.value,
               ]),
           );
-
-          return InvocationResult(requestId: context.requestId);
         } catch (_) {
           await putObject(
             s3,
@@ -70,9 +68,9 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
                 PostStatus.failed.value,
               ]),
           );
-
-          rethrow;
         }
+
+        return InvocationResult(requestId: context.requestId);
       },
     );
 
