@@ -42,31 +42,22 @@ String _getCsvKey(final DateTime dateTime) =>
     DateFormat('yyyyMMdd').format(dateTime);
 
 FunctionHandler postToday(final S3 s3) => FunctionHandler(
-      name: 'post.today',
+      name: 'post_today_handler',
       action: (context, event) async {
         final csv = await getObject(s3);
+        final csvKey = _getCsvKey(DateTime.now().toUtc());
 
         try {
           final uri = await post();
 
           await putObject(
             s3,
-            csv
-              ..add([
-                _getCsvKey(DateTime.now().toUtc()),
-                uri.rkey,
-                PostStatus.posted.value,
-              ]),
+            csv..add([csvKey, uri.rkey, PostStatus.posted.value]),
           );
         } catch (_) {
           await putObject(
             s3,
-            csv
-              ..add([
-                _getCsvKey(DateTime.now().toUtc()),
-                '',
-                PostStatus.failed.value,
-              ]),
+            csv..add([csvKey, '', PostStatus.failed.value]),
           );
         }
 
@@ -75,7 +66,7 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
     );
 
 FunctionHandler postRecovery(final S3 s3) => FunctionHandler(
-      name: 'post.recovery',
+      name: 'post_recovery_handler',
       action: (context, event) async {
         final csv = await getObject(s3);
 
@@ -86,23 +77,23 @@ FunctionHandler postRecovery(final S3 s3) => FunctionHandler(
             record[1] = uri.rkey;
             record[2] = PostStatus.posted.value;
 
-            await putObject(s3, csv);
-
             break;
           }
         }
+
+        await putObject(s3, csv);
 
         return InvocationResult(requestId: context.requestId);
       },
     );
 
 FunctionHandler repost(final S3 s3) => FunctionHandler(
-      name: 'repost',
+      name: 'repost_handler',
       action: _repost(s3, PostStatus.reposted),
     );
 
 FunctionHandler repostAgain(final S3 s3) => FunctionHandler(
-      name: 'repost.again',
+      name: 'repost_again_handler',
       action: _repost(s3, PostStatus.repostedAgain),
     );
 

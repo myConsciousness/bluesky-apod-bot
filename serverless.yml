@@ -19,22 +19,22 @@ functions:
   postToday:
     maximumRetryAttempts: 0
     environment:
-        NASA_API_TOKEN: ${env:NASA_API_TOKEN}
+      NASA_API_TOKEN: ${env:NASA_API_TOKEN}
     image:
       name: appImage
       command:
-        - post.today
+        - post_today_handler
     events:
       - eventBridge:
           schedule: cron(0 8 * * ? *)
   postRecovery:
     maximumRetryAttempts: 0
     environment:
-        NASA_API_TOKEN: ${env:NASA_API_TOKEN}
+      NASA_API_TOKEN: ${env:NASA_API_TOKEN}
     image:
       name: appImage
       command:
-        - post.recovery
+        - post_recovery_handler
     events:
       - eventBridge:
           schedule: cron(0 9,10 * * ? *)
@@ -43,7 +43,7 @@ functions:
     image:
       name: appImage
       command:
-        - repost
+        - repost_handler
     events:
       - eventBridge:
           schedule: cron(0 20 * * ? *)
@@ -52,7 +52,7 @@ functions:
     image:
       name: appImage
       command:
-        - repost.again
+        - repost_again_handler
     events:
       - eventBridge:
           schedule: cron(0 11 * * ? *)
