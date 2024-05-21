@@ -47,6 +47,10 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
         final csv = await getObject(s3);
         final csvKey = _getCsvKey(DateTime.now().toUtc());
 
+        if (csv.lastOrNull?.firstOrNull == csvKey) {
+          return InvocationResult(requestId: context.requestId);
+        }
+
         try {
           final uri = await post();
 
@@ -55,10 +59,12 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
             csv..add([csvKey, uri.rkey, PostStatus.posted.value]),
           );
         } catch (_) {
-          await putObject(
-            s3,
-            csv..add([csvKey, '', PostStatus.failed.value]),
-          );
+          if (csv.lastOrNull?.firstOrNull != csvKey) {
+            await putObject(
+              s3,
+              csv..add([csvKey, '', PostStatus.failed.value]),
+            );
+          }
         }
 
         return InvocationResult(requestId: context.requestId);
