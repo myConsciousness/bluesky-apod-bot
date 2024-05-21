@@ -58,7 +58,10 @@ FunctionHandler postToday(final S3 s3) => FunctionHandler(
             s3,
             csv..add([csvKey, uri.rkey, PostStatus.posted.value]),
           );
-        } catch (_) {
+        } catch (e) {
+          print(e);
+
+          final csv = await getObject(s3);
           if (csv.lastOrNull?.firstOrNull != csvKey) {
             await putObject(
               s3,
