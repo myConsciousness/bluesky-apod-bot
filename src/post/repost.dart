@@ -16,11 +16,13 @@ Future<void> repost({required String rkey}) async {
     bsky.AtUri.make(did.data.did, appBskyFeedPost, rkey),
   ]);
 
-  final post = posts.data.posts.first;
+  if (posts.data.posts.isNotEmpty) {
+    final post = posts.data.posts.first;
 
-  if (post.isReposted) {
-    await bluesky.repo.deleteRecord(uri: post.viewer.repost!);
+    if (post.isReposted) {
+      await bluesky.repo.deleteRecord(uri: post.viewer.repost!);
+    }
+
+    await bluesky.feed.repost(cid: post.cid, uri: post.uri);
   }
-
-  await bluesky.feed.repost(cid: post.cid, uri: post.uri);
 }
