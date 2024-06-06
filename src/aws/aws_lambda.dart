@@ -38,14 +38,14 @@ enum PostStatus {
   }
 }
 
-String _getCsvKey(final DateTime dateTime) =>
+String getCsvKey(final DateTime dateTime) =>
     DateFormat('yyyyMMdd').format(dateTime);
 
 FunctionHandler postToday(final S3 s3) => FunctionHandler(
       name: 'post_today_handler',
       action: (context, event) async {
         final csv = await getObject(s3);
-        final csvKey = _getCsvKey(DateTime.now().toUtc());
+        final csvKey = getCsvKey(DateTime.now().toUtc());
 
         if (csv.lastOrNull?.firstOrNull == csvKey) {
           return InvocationResult(requestId: context.requestId);
@@ -81,7 +81,7 @@ FunctionHandler postRecovery(final S3 s3) => FunctionHandler(
 
         for (final record in csv) {
           if (record[2] == PostStatus.failed.value) {
-            final uri = await post();
+            final uri = await post(checkLastPost: true);
 
             record[1] = uri.rkey;
             record[2] = PostStatus.posted.value;

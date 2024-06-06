@@ -61,18 +61,18 @@ packages:
     dependency: transitive
     description:
       name: atproto
-      sha256: "1ec41bca503fbc4bb69739f4a8ca9518da4fe2b7cbd31bdc3fc411ce8cef0965"
+      sha256: "5105f0a7ee217120e7e3a1316c73527c9c4caeb359e3a22449b47b4f54fb8abc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.10"
+    version: "0.12.1"
   atproto_core:
     dependency: transitive
     description:
       name: atproto_core
-      sha256: "16706cf9f34888ee1ae47a29b9768c2636959ba4a170fc8c6245d144f0b485ed"
+      sha256: "01699fb80f2d6cb51e21afd3d35d388d5c81d4eaed8bdaa541e8edec9a185be9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.8"
+    version: "0.10.1"
   aws_lambda_dart_runtime_ns:
     dependency: "direct main"
     description:
@@ -101,10 +101,10 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: "331e9f4bf125ccb2338cb6c431f82cc5a69f8f0b595a3ba930fba3880a64a6db"
+      sha256: "8973800192c2ae3668c72329b59fecdaff8fc151859229f6d0deb31210153964"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.18"
+    version: "0.16.5"
   bluesky_text:
     dependency: "direct main"
     description:
@@ -313,14 +313,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
-  lex_annotation:
-    dependency: transitive
-    description:
-      name: lex_annotation
-      sha256: "3849dd2873491e74e79fbc2fd7b34236066c1ed261b84e72b4b1c9eff5d8e8e3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   lints:
     dependency: "direct dev"
     description:

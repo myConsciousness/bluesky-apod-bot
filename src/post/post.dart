@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:nasa/nasa.dart';
 
+import '../aws/aws_lambda.dart';
 import 'session.dart';
 
 const _apodOfficialUrl = 'https://apod.nasa.gov';
@@ -18,15 +19,31 @@ const _videoUrl = 'https://www.youtube.com/watch?v=';
 const _markdownAboutAPOD =
     '[About Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
 
-Future<bsky.AtUri> post([DateTime? date]) async {
+Future<bsky.AtUri> post({
+  bool checkLastPost = false,
+}) async {
   final bluesky = bsky.Bluesky.fromSession(await session);
+
+  if (checkLastPost) {
+    final feed = await bluesky.feed.getAuthorFeed(
+      actor: bluesky.session!.did,
+      limit: 1,
+    );
+
+    final lastPost = feed.data.feed.first;
+
+    if (getCsvKey(lastPost.post.indexedAt) ==
+        getCsvKey(DateTime.now().toUtc())) {
+      return lastPost.post.uri;
+    }
+  }
 
   final nasa = NasaApi(
     token: Platform.environment['NASA_API_TOKEN']!,
     timeout: const Duration(seconds: 30),
   );
 
-  final apod = (await nasa.apod.lookupImage(date: date)).data;
+  final apod = (await nasa.apod.lookupImage()).data;
 
   bsky.BlobData? blobData;
   if (apod.mediaType == 'image') {
