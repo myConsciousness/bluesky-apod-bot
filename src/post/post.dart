@@ -34,7 +34,9 @@ Future<bsky.AtUri> post({
 
     if (getCsvKey(lastPost.post.indexedAt) ==
         getCsvKey(DateTime.now().toUtc())) {
-      return lastPost.post.uri;
+      final reply = lastPost.post.record.reply;
+
+      return reply != null ? reply.root.uri : lastPost.post.uri;
     }
   }
 
