@@ -1,6 +1,9 @@
 import 'dart:io' show Platform;
 
+import 'package:bluesky/app_bsky_feed_defs.dart';
 import 'package:bluesky/bluesky.dart' as bsky;
+import 'package:bluesky/com_atproto_repo_strong_ref.dart';
+import 'package:bluesky/core.dart' hide Platform;
 import 'package:bluesky/ids.dart';
 
 import 'session.dart';
@@ -13,14 +16,16 @@ Future<void> repost({required String rkey}) async {
   );
 
   final posts = await bluesky.feed.getPosts(uris: [
-    bsky.AtUri.make(did.data.did, appBskyFeedPost, rkey),
+    AtUri.make(did.data.did, appBskyFeedPost, rkey),
   ]);
 
   final post = posts.data.posts.first;
 
-  if (post.isReposted) {
-    await bluesky.repo.deleteRecord(uri: post.viewer.repost!);
+  if (post.viewer.hasRepost) {
+    await bluesky.feed.repost.delete(rkey: post.viewer.repost!.rkey);
   }
 
-  await bluesky.feed.repost(cid: post.cid, uri: post.uri);
+  await bluesky.feed.repost.create(
+    subject: StrongRef(cid: post.cid, uri: post.uri),
+  );
 }

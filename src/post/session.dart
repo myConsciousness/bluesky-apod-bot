@@ -1,12 +1,14 @@
 import 'dart:io';
 
-import 'package:bluesky/bluesky.dart' as bsky;
+import 'package:bluesky/atproto.dart';
+import 'package:bluesky/com_atproto_server_create_session.dart';
+import 'package:bluesky/core.dart' hide Platform;
 
-Future<bsky.Session> get session async {
-  final session = await bsky.createSession(
+Future<Session> get session async {
+  final session = await createSession(
     identifier: Platform.environment['BLUESKY_IDENTIFIER']!,
     password: Platform.environment['BLUESKY_PASSWORD']!,
   );
 
-  return session.data;
+  return session.data.toSession();
 }

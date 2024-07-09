@@ -6,7 +6,7 @@ environment:
 dependencies:
   aws_lambda_dart_runtime_ns: ^0.0.13
   aws_s3_api: ^2.0.0
-  bluesky: ^0.16.5
+  bluesky: ^1.0.0-preview.1
   bluesky_text: ^0.6.9
   csv: ^6.0.0
   image: ^4.0.15

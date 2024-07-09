@@ -53,26 +53,26 @@ packages:
     dependency: transitive
     description:
       name: at_uri
-      sha256: "6d851274072f99393395c32ef8eeb6bb4a79b9cb71c32ea356bf851a03b41a21"
+      sha256: "1156d9d70460fcfcb30e744d7f8c7d544eff073b3142b772f0d02aca10dd064f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2"
+    version: "0.4.0"
   atproto:
     dependency: transitive
     description:
       name: atproto
-      sha256: "5105f0a7ee217120e7e3a1316c73527c9c4caeb359e3a22449b47b4f54fb8abc"
+      sha256: "8262a24016dfadc4a25128b7b8db48fbb8a82dc13cc9c9ed3602db105e85f62a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.1"
+    version: "1.0.0-preview.0"
   atproto_core:
     dependency: transitive
     description:
       name: atproto_core
-      sha256: "01699fb80f2d6cb51e21afd3d35d388d5c81d4eaed8bdaa541e8edec9a185be9"
+      sha256: "34197a61898841730feff425b85f7fd97a0c90cb7ab5e79487bd13a42b9e5abf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.1"
+    version: "1.0.0-preview.0"
   aws_lambda_dart_runtime_ns:
     dependency: "direct main"
     description:
@@ -101,10 +101,10 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: "8973800192c2ae3668c72329b59fecdaff8fc151859229f6d0deb31210153964"
+      sha256: "150b29b6c820344240516ded54787cdf781453569b50e2a45e77b9a968012820"
       url: "https://pub.dev"
     source: hosted
-    version: "0.16.5"
+    version: "1.0.0-preview.1"
   bluesky_text:
     dependency: "direct main"
     description:

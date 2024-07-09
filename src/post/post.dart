@@ -1,7 +1,12 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'dart:typed_data';
+import 'package:bluesky/app_bsky_embed_external.dart';
+import 'package:bluesky/app_bsky_feed_post.dart';
+import 'package:bluesky/app_bsky_richtext_facet.dart';
 import 'package:bluesky/bluesky.dart' as bsky;
 import 'package:bluesky/cardyb.dart' as cardyb;
+import 'package:bluesky/com_atproto_repo_upload_blob.dart';
+import 'package:bluesky/core.dart' hide Platform;
 import 'package:bluesky_text/bluesky_text.dart';
 
 import 'package:http/http.dart' as http;
@@ -19,7 +24,7 @@ const _videoUrl = 'https://www.youtube.com/watch?v=';
 const _markdownAboutAPOD =
     '[About Astronomy Picture Of the Day](https://apod.nasa.gov/apod/lib/about_apod.html)';
 
-Future<bsky.AtUri> post({
+Future<AtUri> post({
   bool checkLastPost = false,
 }) async {
   final bluesky = bsky.Bluesky.fromSession(await session);
@@ -47,7 +52,7 @@ Future<bsky.AtUri> post({
 
   final apod = (await nasa.apod.lookupImage()).data;
 
-  bsky.BlobData? blobData;
+  UploadBlobOutput? blobData;
   if (apod.mediaType == 'image') {
     final imageBlob = await http.get(Uri.parse(apod.url));
     blobData = await _getBlobData(bluesky, imageBlob.bodyBytes);
@@ -63,9 +68,9 @@ Future<bsky.AtUri> post({
 
   final entities = headerText.entities;
 
-  final record = await bluesky.feed.post(
+  final record = await bluesky.feed.post.create(
     text: headerText.value,
-    facets: (await entities.toFacets()).map(bsky.Facet.fromJson).toList(),
+    facets: (await entities.toFacets()).map(Facet.fromJson).toList(),
     embed: blobData?.blob.toEmbedImage(
           alt: apod.description,
         ) ??
@@ -77,9 +82,9 @@ Future<bsky.AtUri> post({
 
   var parentRecord = record;
   for (final chunk in chunks) {
-    parentRecord = await bluesky.feed.post(
+    parentRecord = await bluesky.feed.post.create(
       text: chunk.value,
-      reply: bsky.ReplyRef(
+      reply: ReplyRef(
         root: record.data,
         parent: parentRecord.data,
       ),
@@ -90,7 +95,7 @@ Future<bsky.AtUri> post({
   return record.data.uri;
 }
 
-Future<bsky.Embed?> _getEmbedExternal(
+Future<UPostEmbed?> _getEmbedExternal(
   final String url,
   final bsky.Bluesky bluesky,
 ) async {
@@ -101,15 +106,17 @@ Future<bsky.Embed?> _getEmbedExternal(
     );
 
     final imageBlob = await http.get(Uri.parse(preview.data.image));
-    final uploaded = await bluesky.repo.uploadBlob(imageBlob.bodyBytes);
+    final uploaded = await bluesky.atproto.repo.uploadBlob(
+      bytes: imageBlob.bodyBytes,
+    );
 
-    return bsky.Embed.external(
-      data: bsky.EmbedExternal(
-        external: bsky.EmbedExternalThumbnail(
+    return UPostEmbed.external(
+      data: External(
+        external: ExternalExternal(
           uri: preview.data.url,
           title: preview.data.title,
           description: preview.data.description,
-          blob: uploaded.data.blob,
+          thumb: uploaded.data.blob,
         ),
       ),
     );
@@ -178,12 +185,12 @@ Maintained by @shinyakato.dev
 🔭 READ MORE 🔭''';
 }
 
-Future<bsky.BlobData> _getBlobData(
+Future<UploadBlobOutput> _getBlobData(
   final bsky.Bluesky bluesky,
   final Uint8List image,
 ) async {
-  final response = await bluesky.repo.uploadBlob(
-    _compressImage(image),
+  final response = await bluesky.atproto.repo.uploadBlob(
+    bytes: _compressImage(image),
   );
 
   return response.data;
