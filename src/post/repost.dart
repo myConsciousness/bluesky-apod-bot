@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:bluesky/app_bsky_feed_defs.dart';
 import 'package:bluesky/bluesky.dart' as bsky;
 import 'package:bluesky/com_atproto_repo_strong_ref.dart';
-import 'package:bluesky/core.dart' hide Platform;
+import 'package:bluesky/core.dart';
 import 'package:bluesky/ids.dart';
 
 import 'session.dart';

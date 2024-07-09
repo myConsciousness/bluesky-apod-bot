@@ -6,7 +6,7 @@ import 'package:bluesky/app_bsky_richtext_facet.dart';
 import 'package:bluesky/bluesky.dart' as bsky;
 import 'package:bluesky/cardyb.dart' as cardyb;
 import 'package:bluesky/com_atproto_repo_upload_blob.dart';
-import 'package:bluesky/core.dart' hide Platform;
+import 'package:bluesky/core.dart';
 import 'package:bluesky_text/bluesky_text.dart';
 
 import 'package:http/http.dart' as http;
