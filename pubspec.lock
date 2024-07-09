@@ -101,10 +101,10 @@ packages:
     dependency: "direct main"
     description:
       name: bluesky
-      sha256: "629d7109bc5f197274b7dafffaba4395ab14c97d747c67d0fa300a89230e8808"
+      sha256: "8b5c62833e8153c019bcb74cf0d6affee67e52d69bc922eaf1814cb5e1690eef"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-preview.2"
+    version: "1.0.0-preview.3"
   bluesky_text:
     dependency: "direct main"
     description:
