@@ -4,7 +4,7 @@ WORKDIR /work
 COPY ./ ./
 
 RUN dart pub get
-RUN dart compile exe ./src/main.dart -o ./bootstrap
+RUN dart compile exe ./src/main.dart -o ./bootstrap --verbosity=all
 RUN chmod +x bootstrap
 
 FROM --platform=linux/arm64 public.ecr.aws/lambda/provided:latest

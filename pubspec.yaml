@@ -4,7 +4,7 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  aws_lambda_dart_runtime_ns: ^0.0.13
+  aws_lambda_dart_runtime_ns: ^0.1.0
   aws_s3_api: ^2.0.0
   bluesky: ^1.0.0-preview.3
   bluesky_text: ^0.6.9
@@ -12,9 +12,10 @@ dependencies:
   image: ^4.0.15
   nasa: ^0.0.4
   intl: '>=0.17.0 <0.20.0'
+  archive: ^3.6.1
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^4.0.0
   test: ^1.21.0
 
 dependency_overrides:
